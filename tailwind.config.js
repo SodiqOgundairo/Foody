@@ -7,6 +7,9 @@ export default {
         dark: "#101010",
         light: "#fafafa",
       },
+      backgroundImage: {
+        'heroImg': "url('../assets/img/heroBg.png')"
+      }
     },
   },
   plugins: [],

@@ -32,7 +32,7 @@ const Header = () => {
             <span>{user.email}</span>
             <button
               onClick={handleLogout}
-              className="bg-orange-500 px-6 py-2 rounded-lg text-white hover:bg-orange-900 hover:shadow-lg"
+              className="bg-orange-500 px-6 py-2 rounded-sm text-white hover:bg-orange-900 hover:shadow-lg"
             >
               Logout
             </button>
@@ -40,7 +40,7 @@ const Header = () => {
         ) : (
           <Link
             to="/login"
-            className="bg-orange-500 px-6 py-2 rounded-lg text-white hover:bg-orange-900 hover:shadow-lg"
+            className="bg-orange-500 px-6 py-2 rounded-sm text-white hover:bg-orange-900 hover:shadow-lg"
           >
             Login
           </Link>
