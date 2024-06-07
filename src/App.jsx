@@ -1,18 +1,39 @@
-import Aos from "aos"
-import { useEffect } from "react"
-import Header from "./components/Header"
+import Aos from "aos";
+import { useEffect } from "react";
+import Header from "./components/Header";
+import Main from "./pages/Main";
+import { Route, Routes } from "react-router";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import { AuthContextProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-
   useEffect(() => {
-    Aos.init({})
-  }, [])
+    Aos.init({});
+  }, []);
 
   return (
     <>
-    <Header />
+      <AuthContextProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
+          <Route
+            path="home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthContextProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
