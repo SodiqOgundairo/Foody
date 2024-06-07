@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserAuth } from "../context/AuthContext";
+import { UserAuth } from "../context/AuthContext"; // Import UserAuth instead
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { signUp } = UserAuth(); // Ensure signUp matches your context method
+  const { signUp, signInWithGoogle } = UserAuth(); // Destructure signInWithGoogle from context
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,6 +21,16 @@ const Signup = () => {
 
     try {
       await signUp(email, password);
+      navigate("/home"); // Corrected route path
+    } catch (error) {
+      setError(error.message); // Fall back to default message if not a known error
+      console.log(error);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
       navigate("/home"); // Corrected route path
     } catch (error) {
       setError(error.message); // Fall back to default message if not a known error
@@ -57,6 +67,7 @@ const Signup = () => {
 
         <button type="submit">Signup</button>
       </form>
+      <button onClick={handleGoogleSignIn}>Sign up with Google</button>
       <p>
         Already a user? <Link to="/login">Login Here</Link>
       </p>{" "}

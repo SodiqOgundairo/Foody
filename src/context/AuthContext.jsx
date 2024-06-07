@@ -1,12 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { auth, db } from "../firebase.js";
+import { auth, db, googleProvider } from "../firebase.js";
 import {
-  createUserWithEmailAndPassword,
-  signOut,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut
 } from "firebase/auth";
-
 import { setDoc, doc } from 'firebase/firestore'
 
 const AuthContext = createContext();
@@ -15,7 +15,7 @@ export function AuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
   //   SIGNUP FUNCTION
-  const signUp = (email, password) => {
+  function signUp(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
     setDoc(doc(db, 'users', email), {
       savedShows: []
@@ -26,6 +26,11 @@ export function AuthContextProvider({ children }) {
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
+  
+    //    GOOGLE SIGNUP 
+    async function signInWithGoogle() {
+      await signInWithPopup(auth, googleProvider);
+    }
 
   //   LOGOUT FUNCTION
   function logOut() {
@@ -42,7 +47,7 @@ export function AuthContextProvider({ children }) {
   })
 
   return (
-    <AuthContext.Provider value={{ signUp, logIn, logOut, user }}>
+    <AuthContext.Provider value={{ signUp, logIn, signInWithGoogle, logOut, user }}>
       {children}
     </AuthContext.Provider>
   );
