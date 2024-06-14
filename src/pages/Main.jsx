@@ -3,7 +3,7 @@ import Hero from "../components/Hero";
 import { useEffect, useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { LuFolderSearch } from "react-icons/lu";
-import SingleRecipe from "../components/SingleRecipe";
+import MealCategory from "../components/MealCategory";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Main = () => {
       </form>
 
       <div className="m-5 flex flex-wrap justify-between">
-        {/* <SingleRecipe /> */}
+        <MealCategory />
       </div>
     </div>
   );
