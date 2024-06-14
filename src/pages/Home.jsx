@@ -4,6 +4,7 @@ import { UserAuth } from "../context/AuthContext"
 import { useEffect, useState } from "react"
 import { LuFolderSearch } from "react-icons/lu"
 import SingleRecipe from "../components/SingleRecipe"
+import MealCategory from "../components/MealCategory"
 
 const Home = () => {
 
@@ -45,7 +46,8 @@ const Home = () => {
       </form>
 
       <div className="m-5 flex flex-wrap justify-between">
-        <SingleRecipe />
+        {/* <SingleRecipe /> */}
+        <MealCategory />
       </div>
     </div>
   )
