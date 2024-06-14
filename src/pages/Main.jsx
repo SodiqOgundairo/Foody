@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import { useEffect, useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { LuFolderSearch } from "react-icons/lu";
+import SingleRecipe from "../components/SingleRecipe";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -14,15 +15,11 @@ const Main = () => {
   }
 
   useEffect(() => {
-    if (user) {
-      navigate("/home");
-    } else {
-      navigate("/");
-    }
+    user ? `${navigate('/home')}` : `${navigate('/')}`
   }, [user, navigate]);
 
   return (
-    <div className="pt-[90px] flex flex-wrap justify-center items-center">
+    <div className="pt-[90px] flex flex-col justify-center items-center">
       <Hero />
       <form onSubmit={handleSearch} className="m-5 flex gap-4">
         <input
@@ -40,7 +37,9 @@ const Main = () => {
         </button>
       </form>
 
-      <div className="m-5 flex flex-wrap justify-between"></div>
+      <div className="m-5 flex flex-wrap justify-between">
+        {/* <SingleRecipe /> */}
+      </div>
     </div>
   );
 };
