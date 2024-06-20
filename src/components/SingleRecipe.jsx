@@ -34,10 +34,15 @@ const saveMeal = async (category) => {
       const mealId = doc(db, "users", `${user.email}`);
       const docSnap = await getDoc(mealId);
       const newMeal = {
-        id: category.idCategory,
-        title: category.strCategory,
-        img: category.strCategoryThumb,
-        description: category.strCategoryDescription,
+        // id: category.idCategory,
+        // title: category.strCategory,
+        // img: category.strCategoryThumb,
+        // description: category.strCategoryDescription,
+
+        idCategory: category.idCategory,
+        strCategory: category.strCategory,
+        strCategoryThumb: category.strCategoryThumb,
+        strCategoryDescription: category.strCategoryDescription,
       }
 
       if (docSnap.exists) {
@@ -85,7 +90,7 @@ const saveMeal = async (category) => {
         if (docSnap.exists) {
           const currentSavedMeals = docSnap.data().savedMeals || [];
           const updatedSavedMeals = currentSavedMeals.filter(
-            (meal) => meal.id !== category.idCategory
+            (meal) => meal.idCategory !== category.idCategory
           );
           await updateDoc(mealId, { savedMeals: updatedSavedMeals });
           setSavedItems(updatedSavedMeals);
@@ -104,12 +109,27 @@ const saveMeal = async (category) => {
   };
 
   const isMealSaved = (idCategory) => {
-    return savedItems.some((item) => item.id === idCategory)
+    return savedItems.some((item) => item.idCategory === idCategory)
   }
+
+   // Ensure props.categories is an array
+   const categories = Array.isArray(props.categories) ? props.categories : [];
+
+
+  //  truncate Text
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
+
 
   return (
     <ul className="flex flex-wrap justify-center gap-7 list-none">
-      {props.categories.map((category) => (
+      {categories.map((category) => (
         <li
           className="w-[300px] list-none bg-white shadow-lg rounded-md hover:bg-orange-500 hover:text-white"
           key={category.idCategory}
@@ -121,8 +141,8 @@ const saveMeal = async (category) => {
           />
           <div className="py-4 px-10">
             <h2 className="text-2xl font-bold">{category.strCategory}</h2>
-            <p>{category.strCategoryDescription.substring(0, 100)}...</p>
-
+            <p> {truncateText(category.strCategoryDescription, 20)}</p>
+            
             <button
               onClick={() =>
                 isMealSaved(category.idCategory)
