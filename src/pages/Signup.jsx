@@ -40,7 +40,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup h-[100vh] flex flex-col justify-center items-center">
+    <div className="signup h-[100vh] flex flex-col justify-center items-center bg-blend-overlay">
       <div className=" backdrop-blur-md p-10 rounded-lg shadow-lg">
         <h1 className="text-light font-bold text-5xl py-5">
           SIGN UP FOR FOODY

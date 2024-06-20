@@ -1,26 +1,35 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
 
 const Header = () => {
   const { user, logOut } = UserAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuBtn, setMenuBtn] = useState(true)
 
   const handleLogout = async () => {
     try {
       await logOut();
-      navigate("/login"); // Navigate to login page after logging out
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleMenu = () => {
+    setMenuOpen(!menuOpen)
+    setMenuBtn(!menuBtn)
+  }
+
   return (
-    <header className="flex justify-between p-4 bg-light/70 fixed w-full backdrop-blur-lg flex-wrap">
+    <header className="flex justify-between p-4 bg-light/70 fixed w-full backdrop-blur-lg flex-wrap md:items-center z-10">
       <Link to="/" className="text-orange-500 font-bold text-4xl italic">
         foody
       </Link>
-      <nav className="flex justify-center gap-7 items-center flex-wrap">
-        <ul className="list-none hidden md:flex justify-center gap-4 p-4 flex-wrap">
+      <nav className={`flex-col ${menuOpen ? 'flex flex-col relative right-0' : 'hidden'} md:flex md:flex-row justify-center gap-7 items-center flex-wrap`}>
+        <ul className="list-none block md:flex justify-center gap-4 p-4 flex-wrap">
           <li className="hover:text-orange-500" > <Link to={'/'} >Home </Link> </li>
           <li className="hover:text-orange-500" > <Link to={'/'} >Meal of the Day </Link> </li>
           <li className="hover:text-orange-500" > <Link to={'my-meals'} > My saved Meals </Link> </li>
@@ -45,6 +54,10 @@ const Header = () => {
           </Link>
         )}
       </nav>
+
+      <div className={` ${menuBtn ? 'block' : 'hidden'} text-4xl md:hidden`} onClick={handleMenu}>
+        <GiHamburgerMenu />
+      </div>
     </header>
   );
 };
