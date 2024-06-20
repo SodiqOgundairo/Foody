@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <header className="flex justify-between p-4 bg-light/70 fixed w-full backdrop-blur-lg flex-wrap">
-      <Link to="/" className="text-orange-500 font-bold text-2xl italic">
+      <Link to="/" className="text-orange-500 font-bold text-4xl italic">
         foody
       </Link>
       <nav className="flex justify-center gap-7 items-center flex-wrap">

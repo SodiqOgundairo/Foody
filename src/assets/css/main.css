@@ -9,3 +9,17 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.signup {
+    background-image: url('../img/signup.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.signup {
+    background-image: url('../img/login.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
