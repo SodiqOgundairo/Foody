@@ -16,9 +16,14 @@ export function AuthContextProvider({ children }) {
 
   //   SIGNUP FUNCTION
   function signUp(email, password) {
-    createUserWithEmailAndPassword(auth, email, password);
-    setDoc(doc(db, 'users', email), {
-      savedShows: []
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      setDoc(doc(db, 'users', email), {
+        savedMeals: []
+      })
+    })
+    .catch((err) => {
+      console.log('Error creating user: ' + err.message)
     })
   }
 

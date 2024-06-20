@@ -1,4 +1,5 @@
 import { LuAlignHorizontalDistributeStart } from "react-icons/lu";
+import { useNavigate } from "react-router";
 
 const Hero = () => {
   return (
@@ -14,7 +15,7 @@ const Hero = () => {
       </p>
       </div>
 
-      <div className="text-center">
+      <div className="text-center hidden">
         <button className="bg-orange-500 py-2 px-6 text-light rounded-md hover:bg-orange-900 hover:shadow-lg flex items-center gap-3">
         Get Started
         <LuAlignHorizontalDistributeStart />  

@@ -21,10 +21,9 @@ const Header = () => {
       </Link>
       <nav className="flex justify-center gap-7 items-center flex-wrap">
         <ul className="list-none hidden md:flex justify-center gap-4 p-4 flex-wrap">
-          <li>Home</li>
-          <li>About</li>
-          <li>Meal of the Day</li>
-          <li>Pricing</li>
+          <li className="hover:text-orange-500" > <Link to={'/'} >Home </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'/'} >Meal of the Day </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'my-meals'} > My saved Meals </Link> </li>
         </ul>
 
         {user?.email ? (

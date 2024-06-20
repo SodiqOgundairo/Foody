@@ -1,48 +1,112 @@
-import { useState } from "react";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router";
 import { UserAuth } from "../context/AuthContext";
 
 const SingleRecipe = (props) => {
   const [savedItems, setSavedItems] = useState([]);
-  // const [list, setList] = useState(false);
-  // const [saved, setSaved] = useState(false);
   const { user } = UserAuth();
   const navigate = useNavigate();
 
-  const saveMeal = async (category) => {
+
+ // Fetch user's saved meals on component mount (optional)
+ useEffect(() => {
+  const fetchSavedMeals = async () => {
     if (user?.email) {
-      // setList(!list);
-      // setSaved(true);
+      const mealId = doc(db, "users", `${user.email}`);
       try {
-        const mealId = doc(db, "users", `${user.email}`);
+        const docSnap = await getDoc(mealId);
+        if (docSnap.exists) {
+          setSavedItems(docSnap.data().savedMeals || []); 
+        }
+      } catch (error) {
+        console.error("Error fetching saved meals:", error);
+      }
+    }
+  };
+  fetchSavedMeals();
+}, [user]); // Update on user changes
+
+const saveMeal = async (category) => {
+  if (user?.email) {
+    try {
+      const mealId = doc(db, "users", `${user.email}`);
+      const docSnap = await getDoc(mealId);
+      const newMeal = {
+        id: category.idCategory,
+        title: category.strCategory,
+        img: category.strCategoryThumb,
+        description: category.strCategoryDescription,
+      }
+
+      if (docSnap.exists) {
+        // Document exists, update saved meals
         await updateDoc(mealId, {
-          savedMeals: arrayUnion({
-            id: category.idCategory,
-            title: category.strCategory,
-            img: category.strCategoryThumb,
-          }),
+          savedMeals: arrayUnion(newMeal),
         });
         setSavedItems((prevSavedItems) => [
-          ...prevSavedItems,
-          category.idCategory,
+          ...prevSavedItems, newMeal
         ]);
         console.log("Meal saved successfully");
+      } else {
+        // Document doesn't exist, create a new document with savedMeals array
+        await setDoc(mealId, { savedMeals: [newMeal] });
+        setSavedItems([newMeal])
+        console.log("New user document created");
+        // Now update saved meals (with the newly created document)
+        // await updateDoc(mealId, {
+        //   savedMeals: arrayUnion({
+        //     id: category.idCategory,
+        //     title: category.strCategory,
+        //     img: category.strCategoryThumb,
+        //   }),
+        // });
+        // setSavedItems([
+        //   { id: category.idCategory, title: category.strCategory, img: category.strCategoryThumb },
+        // ]);
+      }
+    } catch (error) {
+      console.error("Error saving meal:", error);
+      alert(`Error saving meal: ${error.message || "Unknown error"}`);
+    }
+  } else {
+    alert("Please login first to save a meal");
+    navigate("/login");
+  }
+};
+
+
+  const removeMeal = async (category) => {
+    if (user?.email) {
+      try {
+        const mealId = doc(db, "users", `${user.email}`);
+        const docSnap = await getDoc(mealId);
+        if (docSnap.exists) {
+          const currentSavedMeals = docSnap.data().savedMeals || [];
+          const updatedSavedMeals = currentSavedMeals.filter(
+            (meal) => meal.id !== category.idCategory
+          );
+          await updateDoc(mealId, { savedMeals: updatedSavedMeals });
+          setSavedItems(updatedSavedMeals);
+          console.log("Meal removed successfully");
+          // alert("Meal removed successfully");
+        } else {
+          console.warn("User document not found"); // Handle missing document
+        }
       } catch (error) {
-        console.error("Error saving meal: ", error);
-        alert("Error saving meal");
+        console.error("Error removing meal:", error);
+        alert("Error removing meal. Please try again."); // Informative message
       }
     } else {
-      alert("Please login first to save a meal");
-      navigate("/login");
+      alert("Please login first to remove a meal");
     }
   };
 
-  const removeMeal = async (category) => {
-    // logic to remove meal from firestore needed
-    setSavedItems((prev) => prev.filter((id) => id !== category.idCategory));
-  };
+  const isMealSaved = (idCategory) => {
+    return savedItems.some((item) => item.id === idCategory)
+  }
+
   return (
     <ul className="flex flex-wrap justify-center gap-7 list-none">
       {props.categories.map((category) => (
@@ -58,25 +122,19 @@ const SingleRecipe = (props) => {
           <div className="py-4 px-10">
             <h2 className="text-2xl font-bold">{category.strCategory}</h2>
             <p>{category.strCategoryDescription.substring(0, 100)}...</p>
-            {/* <button
-              onClick={() => saveMeal(category)}
-              className="my-3 bg-orange-500 py-2 px-20 text-light rounded-md hover:bg-white hover:text-orange-500 hover:shadow-lg flex items-center gap-3"
-            >
-              {list ? 'Remove from List' : 'Add to List'}
-            </button> */}
 
             <button
               onClick={() =>
-                savedItems.includes(category.idCategory)
+                isMealSaved(category.idCategory)
                   ? removeMeal(category)
                   : saveMeal(category)
               }
               className="my-3 bg-orange-500 py-2 px-20 text-light rounded-md hover:bg-white hover:text-orange-500 hover:shadow-lg flex items-center gap-3"
             >
-              {savedItems.includes(category.idCategory)
+              {isMealSaved(category.idCategory)
                 ? "Remove from List"
                 : "Add to List"}
-            </button> 
+            </button>
           </div>
         </li>
       ))}

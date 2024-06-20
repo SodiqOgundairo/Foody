@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SavedMeals from "./pages/SavedMeals";
 
 function App() {
   useEffect(() => {
@@ -27,6 +28,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="my-meals"
+            element={
+              <ProtectedRoute>
+                <SavedMeals />
               </ProtectedRoute>
             }
           />
