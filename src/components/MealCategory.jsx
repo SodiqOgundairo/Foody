@@ -3,7 +3,7 @@ import SingleRecipe from "./SingleRecipe";
 import { UserAuth } from "../context/AuthContext";
 import { LuFolderSearch } from "react-icons/lu";
 import axios from "axios";
-// import emptyPlate from "../assets/img/emptyPlate.png";
+import emptyPlate from "../assets/img/emptyRecipe.png";
 
 const MealCategory = () => {
 
@@ -46,11 +46,12 @@ const MealCategory = () => {
       return <div>Error: {error.message}</div>;
     }
 
-    const handleSearch = async (e) => {
-      e.preventDefault()
-      let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
+// useEffect(() => {
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
         url: `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`,
         headers: {}
       }
@@ -83,7 +84,8 @@ const MealCategory = () => {
         setNoResult(true)
       });
     }
-  
+  // }, [])
+    
   return (
     <div className="flex justify-center flex-col items-center">
           <form onSubmit={handleSearch} className="m-5 flex gap-4">
@@ -102,19 +104,19 @@ const MealCategory = () => {
         </button>
       </form>
       <div className="search-results">
-        {/* {noResult ? (
-          <> */}
-          {/* <img src={emptyPlate} alt="Recipe Not found" /> */}
-          {/* <p>No results found for "{query}". Please try a different search Meal.</p>
-          </>
+        {noResult ? (
+          <div className="flex flex-col items-center justify-center">
+          <p className="text-2xl text-orange-500 font-bold italic">No results found for "{query}". Please try a different search Meal.</p>
+          <img src={emptyPlate} alt="Recipe Not found" className="w-1/3" />
+          </div>
         ) : (
           categories && categories.length > 0 ? (
             <SingleRecipe categories={categories} />
           ) : (
             <p>Start by searching for a meal.</p>
           )
-        )} */}
-        <SingleRecipe categories={categories} />
+        )}
+        {/* <SingleRecipe categories={categories} /> */}
       </div>
     </div>
   )
