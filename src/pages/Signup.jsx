@@ -40,12 +40,12 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup h-[100vh] flex flex-col justify-center items-center bg-blend-overlay">
+    <div className="signup h-[100vh] flex flex-col justify-center items-center">
       <div className=" backdrop-blur-md p-10 rounded-lg shadow-lg">
         <h1 className="text-light font-bold text-5xl py-5">
-          SIGN UP FOR FOODY
+          Signup for FOODY
         </h1>
-        {error && <p className="bg-red-500/50 ">{error}</p>}{" "}
+        {error && <p className="bg-red-700  font-bold text-base px-4 py-2 italic my-2 text-light">{error}</p>}{" "}
         {/* Conditionally render error message */}
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 my-5">

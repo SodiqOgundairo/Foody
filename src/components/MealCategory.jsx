@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import SingleRecipe from "./SingleRecipe";
+import { UserAuth } from "../context/AuthContext";
 
 const MealCategory = () => {
 
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { user } = UserAuth()
   
     useEffect(() => {
       const fetchCategories = async () => {
@@ -28,7 +30,7 @@ const MealCategory = () => {
       };
   
       fetchCategories();
-    }, []);
+    }, [user]);
   
     if (loading) {
       return ;

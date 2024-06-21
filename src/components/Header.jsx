@@ -1,13 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IoCloseSharp } from "react-icons/io5";
+
 
 const Header = () => {
   const { user, logOut } = UserAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
-  const [menuBtn, setMenuBtn] = useState(true)
+
+  useEffect(() => {
+    const hadnleClickOutside = () => {
+      if (menuOpen && !event.target.closest('header')) {
+        setMenuOpen(!menuOpen)
+      }
+    }
+    document.addEventListener('mousedown', hadnleClickOutside)
+    return () => {
+      document.addEventListener('mousedown', hadnleClickOutside)
+    }
+  }, [menuOpen])
 
   const handleLogout = async () => {
     try {
@@ -20,7 +33,21 @@ const Header = () => {
 
   const handleMenu = () => {
     setMenuOpen(!menuOpen)
-    setMenuBtn(!menuBtn)
+  }
+
+  const handleMenuItemClick = () => {
+    setMenuOpen(!menuOpen)
+  }
+
+  const handleMyMealsClick = () => {
+    !user?.email ? (
+      alert('Please login to see your saved meals!'), setTimeout(() =>{ 
+        navigate('/login')
+        setMenuOpen(!menuOpen)
+        , 0})
+    ) : (
+      handleMenuItemClick()
+    )
   }
 
   return (
@@ -30,9 +57,9 @@ const Header = () => {
       </Link>
       <nav className={`flex-col ${menuOpen ? 'flex flex-col relative right-0' : 'hidden'} md:flex md:flex-row justify-center gap-7 items-center flex-wrap`}>
         <ul className="list-none block md:flex justify-center gap-4 p-4 flex-wrap">
-          <li className="hover:text-orange-500" > <Link to={'/'} >Home </Link> </li>
-          <li className="hover:text-orange-500" > <Link to={'/'} >Meal of the Day </Link> </li>
-          <li className="hover:text-orange-500" > <Link to={'my-meals'} > My saved Meals </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'/'} onClick={handleMenuItemClick}>Home </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'/'} onClick={handleMenuItemClick}>Meal of the Day </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'my-meals'} onClick={handleMyMealsClick}> My saved Meals </Link> </li>
         </ul>
 
         {user?.email ? (
@@ -46,16 +73,22 @@ const Header = () => {
             </button>
           </>
         ) : (
+          <div>
+
           <Link
             to="/login"
             className="bg-orange-500 px-6 py-2 rounded-sm text-white hover:bg-orange-900 hover:shadow-lg"
-          >
+            >
             Login
           </Link>
+          <div className={`  text-4xl md:hidden`} onClick={handleMenu}>
+        <IoCloseSharp />
+      </div>
+            </div>
         )}
       </nav>
 
-      <div className={` ${menuBtn ? 'block' : 'hidden'} text-4xl md:hidden`} onClick={handleMenu}>
+      <div className={` ${menuOpen ? 'hidden' : 'block'} text-4xl md:hidden`} onClick={handleMenu}>
         <GiHamburgerMenu />
       </div>
     </header>

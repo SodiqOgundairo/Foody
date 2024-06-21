@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -46,39 +47,71 @@ const Login = () => {
   };
 
   return (
-    <div className="py-[100px]">
-      <h1 className="text-orange-500">Login with your credentials</h1>
-      {error && <p className="text-red-500">{error}</p>}{" "}
-      {/* Conditionally render error message */}
-      {/* {error ? <p className='p-3 bg-red-400 my-2'> {error} </p> : null} */}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            placeholder="example@email.com"
-            autoComplete="email"
-            value={email} // Added value attribute for controlled input
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="*****************"
-            autoComplete="current-password"
-            value={password} // Added value attribute for controlled input
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+    <div className="login h-[100vh] flex flex-col justify-center items-center">
+      <div className="backdrop-blur-md p-10 rounded-lg shadow-lg">
+        <h1 className="text-light font-bold text-5xl py-5">Login to FOODY</h1>
+        {error && (
+          <p className="bg-red-700  font-bold text-base px-4 py-2 italic my-2 text-light">
+            {error}
+          </p>
+        )}{" "}
+        {/* Conditionally render error message */}
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2 my-5">
+            <label htmlFor="email" className="font-bold text-lg">
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="example@email.com"
+              autoComplete="email"
+              className="p-3 rounded-md"
+              value={email} // Added value attribute for controlled input
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2 my-5">
+            <label htmlFor="password" className="font-bold text-lg">
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="*****************"
+              autoComplete="current-password"
+              className="p-3 rounded-md"
+              value={password} // Added value attribute for controlled input
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-between items center">
+            <button
+              type="submit"
+              className="bg-orange-500 px-6 py-2 rounded-sm text-white hover:bg-orange-900 hover:shadow-lg"
+            >
+              Login
+            </button>
 
-        <button type="submit">Login</button>
-      </form>
-      <button onClick={handleGoogleSignIn}>Login with Google</button>
-      <p>
-        Don't Have an account yet?<Link to="/signup">Signup Now</Link>
-      </p>
+            <p className="italic flex flex-col">
+              <span className="text-light"> Don't Have an account yet?</span>
+              <Link
+                to="/signup"
+                className="text-light font-bold hover:text-orange-500"
+              >
+                Signup Now
+              </Link>
+            </p>
+          </div>
+        </form>
+        <div className="flex justify-center my-5">
+          <button
+            onClick={handleGoogleSignIn}
+            className="bg-light text-center py-3 px-9 rounded-sm hover:bg-orange-500 hover:shadow-lg hover:text-light flex justify-center items-center gap-5"
+          >
+            {" "}
+            <FaGoogle /> <span> Login with Google </span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
