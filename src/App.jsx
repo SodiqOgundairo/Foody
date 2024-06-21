@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SavedMeals from "./pages/SavedMeals";
+import MealofTheDay from "./pages/MealofTheDay";
 
 function App() {
   useEffect(() => {
@@ -36,6 +37,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <SavedMeals />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="meal-of-the-day"
+            element={
+              <ProtectedRoute>
+                <MealofTheDay />
               </ProtectedRoute>
             }
           />

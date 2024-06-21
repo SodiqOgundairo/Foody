@@ -58,7 +58,7 @@ const Header = () => {
       <nav className={`flex-col ${menuOpen ? 'flex flex-col relative right-0' : 'hidden'} md:flex md:flex-row justify-center gap-7 items-center flex-wrap`}>
         <ul className="list-none block md:flex justify-center gap-4 p-4 flex-wrap">
           <li className="hover:text-orange-500" > <Link to={'/'} onClick={handleMenuItemClick}>Home </Link> </li>
-          <li className="hover:text-orange-500" > <Link to={'/'} onClick={handleMenuItemClick}>Meal of the Day </Link> </li>
+          <li className="hover:text-orange-500" > <Link to={'meal-of-the-day'} onClick={handleMenuItemClick}>Meal of the Day </Link> </li>
           <li className="hover:text-orange-500" > <Link to={'my-meals'} onClick={handleMyMealsClick}> My saved Meals </Link> </li>
         </ul>
 
