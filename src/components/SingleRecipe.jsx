@@ -149,7 +149,7 @@ const saveMeal = async (category) => {
                   ? removeMeal(category)
                   : saveMeal(category)
               }
-              className="my-3 bg-orange-500 py-2 px-20 text-light rounded-md hover:bg-white hover:text-orange-500 hover:shadow-lg flex items-center gap-3"
+              className="my-3 bg-orange-500 py-2 w-full text-light rounded-md hover:bg-white hover:text-orange-500 hover:shadow-lg flex justify-center items-center gap-0"
             >
               {isMealSaved(category.idCategory)
                 ? "Remove from List"

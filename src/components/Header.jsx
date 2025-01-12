@@ -59,12 +59,13 @@ const Header = () => {
         <ul className="list-none block md:flex justify-center gap-4 p-4 flex-wrap">
           <li className="hover:text-orange-500" > <Link to={'/'} onClick={handleMenuItemClick}>Home </Link> </li>
           <li className="hover:text-orange-500" > <Link to={'meal-of-the-day'} onClick={handleMenuItemClick}>Meal of the Day </Link> </li>
-          <li className="hover:text-orange-500" > <Link to={'my-meals'} onClick={handleMyMealsClick}> My saved Meals </Link> </li>
+          <li className="hover:text-orange-500"  > <Link to={'my-meals'} onClick={handleMyMealsClick}> My saved Meals </Link> </li>
         </ul>
 
         {user?.email ? (
           <>
             <span>{user.email}</span>
+            <button className="bg-light border-2 border-orange-500 rounded-sm px-6 py-2 text-orange-500 hover:bg-orange-500 hover:shadow-lg hover:text-white">Add my meal</button>
             <button
               onClick={handleLogout}
               className="bg-orange-500 px-6 py-2 rounded-sm text-white hover:bg-orange-900 hover:shadow-lg"
