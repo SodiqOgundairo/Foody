@@ -1,56 +1,32 @@
-import Aos from "aos";
-import { useEffect } from "react";
-import Header from "./components/Header";
-import Main from "./pages/Main";
 import { Route, Routes } from "react-router";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import Header from "./components/Header";
 import Home from "./pages/Home";
-import { AuthContextProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
 import SavedMeals from "./pages/SavedMeals";
 import MealofTheDay from "./pages/MealofTheDay";
+import Toast from "./components/Toast";
+import RecipeModal from "./components/RecipeModal";
+import CursorGlow from "./components/CursorGlow";
+import { ToastProvider } from "./context/ToastContext";
+import { SavedMealsProvider } from "./context/SavedMealsContext";
+import { RecipeModalProvider } from "./context/RecipeModalContext";
 
 function App() {
-  useEffect(() => {
-    Aos.init({});
-  }, []);
-
   return (
-    <>
-      <AuthContextProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="login" element={<Login />} />
-          <Route
-            path="home"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="my-meals"
-            element={
-              <ProtectedRoute>
-                <SavedMeals />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="meal-of-the-day"
-            element={
-              <ProtectedRoute>
-                <MealofTheDay />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AuthContextProvider>
-    </>
+    <ToastProvider>
+      <SavedMealsProvider>
+        <RecipeModalProvider>
+          <CursorGlow />
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="my-meals" element={<SavedMeals />} />
+            <Route path="meal-of-the-day" element={<MealofTheDay />} />
+          </Routes>
+          <RecipeModal />
+          <Toast />
+        </RecipeModalProvider>
+      </SavedMealsProvider>
+    </ToastProvider>
   );
 }
 

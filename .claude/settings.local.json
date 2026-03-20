@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install:*)",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "Bash(npx pnpm:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(rm:*)",
+      "Bash(npx vite:*)",
+      "Bash(npx eslint:*)"
+    ]
+  }
+}
